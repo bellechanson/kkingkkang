@@ -4,6 +4,8 @@ import com.example.lastdance.entity.Board;
 import com.example.lastdance.entity.Post;
 import com.example.lastdance.repository.BoardRepository;
 import com.example.lastdance.repository.PostRepository;
+//import com.example.lastdance.search.PostDocument;
+//import com.example.lastdance.search.PostSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
+//    private final PostSearchRepository postSearchRepository;
 
     public Post create(Post post, Long boardId) {
         Board board = boardRepository.findById(boardId)
@@ -110,4 +113,19 @@ public class PostService {
                         .boardId(post.getBoard().getBId())
                         .build());
     }
+
+//    public Post save(Post post) {
+//        Post saved = postRepository.save(post);
+//
+//        PostDocument document = PostDocument.builder()
+//                .id(saved.getPId().toString())
+//                .title(saved.getTitle())
+//                .content(saved.getContent())
+//                .nickname(saved.getNickname())
+//                .createdAt(saved.getCreatedAt().toString())
+//                .build();
+//
+//        postSearchRepository.save(document);
+//        return saved;
+//    }
 }
