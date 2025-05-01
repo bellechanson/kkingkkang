@@ -1,0 +1,82 @@
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+}
+
+.post-table thead {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #555;
+}
+
+.post-table th,
+.post-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-table th:nth-child(1),
+.post-table td:nth-child(1) {
+  width: 20%;
+}
+
+.post-table th:nth-child(2),
+.post-table td:nth-child(2) {
+  width: 60%;
+  text-align: center;
+}
+
+.post-table th:nth-child(3),
+.post-table td:nth-child(3) {
+  width: 20%;
+}
+
+.post-row:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.post-row td {
+  font-size: 1.1em;
+  color: #444;
+}
+
+.post-table td {
+  font-size: 1.1em;
+}
+
+.no-posts {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-style: italic;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.pagination button:hover {
+  background-color: #e0e0e0;
+}
+
+.pagination button.active {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
