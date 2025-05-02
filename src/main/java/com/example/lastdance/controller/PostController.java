@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/boards/posts")
 @RequiredArgsConstructor
@@ -54,7 +53,4 @@ public class PostController {
     public ResponseEntity<Page<PostResponseDto>> getAllPosts(Pageable pageable) {
         return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
-
-
-
 }
