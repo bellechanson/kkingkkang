@@ -157,3 +157,9 @@
   color: #aaa;
   cursor: not-allowed;
 }
+
+.post-table th:nth-child(4),
+.post-table td:nth-child(4) {
+  width: 15%; /* or 10~15% */
+  text-align: center;
+}

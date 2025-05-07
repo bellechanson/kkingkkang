@@ -32,9 +32,10 @@ function Header() {
                 <span onClick={() => navigate("/schedule")}>일정</span>
             </nav>
             <div className="header-buttons">
-                {isAdmin && (
                     <button onClick={() => navigate("/boards/manage")}>관리자</button>
-                )}
+                {/*// 테스트용임 나중에 빼셈!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/}
+                {/*// 주소창으로 쳐서 들어가기 귀찮아서 넣어둠*/}
+
                 {isLoggedIn ? (
                     <>
                         <button onClick={() => navigate("/mypage")}>마이페이지</button>

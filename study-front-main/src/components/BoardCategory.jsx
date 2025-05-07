@@ -8,8 +8,8 @@ function BoardCategory({ onBoardSelect }) {
 
   useEffect(() => {
     axios.get('http://localhost:8787/api/boards')
-      .then(response => setBoards(response.data))
-      .catch(error => console.error('보드 목록 불러오기 실패:', error));
+        .then(response => setBoards(response.data))
+        .catch(error => console.error('보드 목록 불러오기 실패:', error));
   }, []);
 
   const handleBoardClick = (boardId) => {
@@ -18,27 +18,27 @@ function BoardCategory({ onBoardSelect }) {
   };
 
   return (
-    <div className="board-category">
-      <ul className="board-list">
-        {/* "전체" 선택지 추가 */}
-        <li
-          key="all"
-          onClick={() => handleBoardClick(null)}  // "전체" 선택 시 null을 전달하여 모든 보드 보기
-          className={`board-item ${selectedBoardId === null ? 'selected' : ''}`}  // 선택된 상태에 스타일 추가
-        >
-          전체
-        </li>
-        {boards.map(board => (
+      <div className="board-category">
+        <ul className="board-list">
+          {/* "전체" 선택지 추가 */}
           <li
-            key={board.bid}
-            onClick={() => handleBoardClick(board.bid)}
-            className={`board-item ${selectedBoardId === board.bid ? 'selected' : ''}`}  // 선택된 보드에 스타일 추가
+              key="all"
+              onClick={() => handleBoardClick(null)}  // "전체" 선택 시 null을 전달하여 모든 보드 보기
+              className={`board-item ${selectedBoardId === null ? 'selected' : ''}`}  // 선택된 상태에 스타일 추가
           >
-            {board.category}
+            전체
           </li>
-        ))}
-      </ul>
-    </div>
+          {boards.map(board => (
+              <li
+                  key={board.bId}
+                  onClick={() => handleBoardClick(board.bId)}
+                  className={`board-item ${selectedBoardId === board.bId ? 'selected' : ''}`}  // 선택된 보드에 스타일 추가
+              >
+                {board.category}
+              </li>
+          ))}
+        </ul>
+      </div>
   );
 }
 

@@ -44,6 +44,7 @@ public class Post {
     @JoinColumn(name = "board_id", nullable = true) // 외래 키: board_id
     private Board board; // 소속 게시판 정보
 
+    @Column(nullable = false)
     private Integer viewCount = 0; // 기본 조회수 0으로 초기화
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

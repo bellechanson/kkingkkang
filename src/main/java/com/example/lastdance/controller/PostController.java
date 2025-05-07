@@ -81,4 +81,19 @@ public class PostController {
     public ResponseEntity<Page<PostResponseDto>> getAllPosts(Pageable pageable) {
         return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
+
+    @GetMapping("/by-board/{boardId}")
+    public ResponseEntity<Page<PostResponseDto>> getPostsByBoard(
+            @PathVariable Long boardId,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(postService.getPostsByBoard(boardId, pageable));
+    }
+
+    @GetMapping("/{id}/view")
+    public ResponseEntity<PostResponseDto> getByIdAndIncreaseView(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getByIdAndIncreaseView(id));
+    }
+
+
 }

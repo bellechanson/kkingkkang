@@ -25,7 +25,7 @@ function PostDetail() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user?.role === 'admin') setIsAdmin(true);
 
-        const postRes = await axios.get(`http://localhost:8787/api/boards/posts/${id}`);
+        const postRes = await axios.get(`http://localhost:8787/api/boards/posts/${id}/view`);
         const commentRes = await axios.get(`http://localhost:8787/api/boards/comments?postId=${id}`);
 
         if (isMounted) {
@@ -90,6 +90,7 @@ function PostDetail() {
       <div className="post-detail-container">
         <h2 className="post-detail-title">{post.title}</h2>
         <p className="post-detail-author">작성자: {post.nickname}</p>
+        <p className="post-detail-views">조회수: {post.viewCount}</p>
         <div className="post-detail-content">{post.content}</div>
 
         <div className="button-group">

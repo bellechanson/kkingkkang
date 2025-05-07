@@ -6,6 +6,8 @@
     align-items: center;
     text-align: center;
     font-family: Arial, sans-serif;
+
+    transform: translateY(-180px);
 }
 
 .home-page h1 {

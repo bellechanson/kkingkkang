@@ -5,6 +5,7 @@ import com.example.lastdance.entity.Post;
 import com.example.lastdance.repository.BoardRepository;
 import com.example.lastdance.repository.PostRepository;
 import com.example.lastdance.dto.PostResponseDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -74,6 +75,21 @@ public class PostService {
                 .map(this::toDto);
     }
 
+    public Page<PostResponseDto> getPostsByBoard(Long boardId, Pageable pageable) {
+        return postRepository.findAllByBoard_bId(boardId, pageable)
+                .map(post -> PostResponseDto.builder()
+                        .id(post.getPId())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .authorId(post.getAuthorId())
+                        .nickname(post.getNickname())
+                        .createdAt(post.getCreatedAt())
+                        .updatedAt(post.getUpdatedAt())
+                        .viewCount(post.getViewCount())
+                        .boardId(post.getBoard().getBId())
+                        .build());
+    }
+
     // Post → PostResponseDto 변환 메서드
     private PostResponseDto toDto(Post post) {
         return PostResponseDto.builder()
@@ -88,4 +104,14 @@ public class PostService {
                 .boardId(post.getBoard().getBId())
                 .build();
     }
+
+    @Transactional
+    public PostResponseDto getByIdAndIncreaseView(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+        post.setViewCount(post.getViewCount() + 1); // 조회수 증가
+        return toDto(post); // 변경된 post를 DTO로 반환
+    }
+
 }

@@ -25,8 +25,8 @@
 //    @PostConstruct
 //    @Transactional
 //    public void init() {
-//        Long boardId = 1L;
-//        int count = 100000;
+//        Long boardId = 2L;
+//        int count = 10000;
 //        int batchSize = 1000;
 //
 //        Board board = boardRepository.findById(boardId)

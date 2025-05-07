@@ -1,5 +1,6 @@
 package com.example.lastdance.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "b_id")
+    @JsonProperty("bId")
     private Long bId;
 
     @Column(name = "category")

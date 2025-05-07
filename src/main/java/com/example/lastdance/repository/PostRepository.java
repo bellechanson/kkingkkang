@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     // 게시판 ID(board.bId)로 게시글 페이지 조회
-    Page<Post> findByBoard_BId(Long boardId, Pageable pageable);
+    Page<Post> findAllByBoard_bId(Long boardId, Pageable pageable);
 }

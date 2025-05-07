@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BoardCategory from "../components/BoardCategory";
 import PostList from "../components/PostList";
 import '../style/BoardPage.css';
+import FloatingButton from "../components/FloatingButton";
+
 
 function BoardPage() {
     const [selectedBoardId, setSelectedBoardId] = useState(null);
@@ -35,6 +37,9 @@ function BoardPage() {
                     <PostList boardId={selectedBoardId || null} />
                 </div>
             </div>
+
+            {/* 오른쪽 하단 고정 버튼 추가 */}
+            <FloatingButton />
         </div>
     );
 }
