@@ -1,19 +1,23 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../style/PostList.css';
 
 function PostList({ boardId }) {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = parseInt(queryParams.get("page")) || 0;
+
     const [posts, setPosts] = useState([]);
     const [pageInfo, setPageInfo] = useState({
-        number: 0,
+        number: initialPage,
         totalPages: 0,
     });
-    const [pageGroup, setPageGroup] = useState(0); // 0번째 그룹부터 시작
-    const navigate = useNavigate();
-    const pageSize = 10; // 한 페이지에 10개
-    const pageRange = 5; // 한 그룹에 5개 페이지
+    const [pageGroup, setPageGroup] = useState(Math.floor(initialPage / 5));
+    const pageSize = 10;
+    const pageRange = 5;
 
     const fetchPosts = (page = 0) => {
         let url = `http://localhost:8787/api/boards/posts/paged?page=${page}&size=${pageSize}`;
@@ -33,15 +37,16 @@ function PostList({ boardId }) {
     };
 
     useEffect(() => {
-        fetchPosts(0);
-        setPageGroup(0);
-    }, [boardId]);
+        fetchPosts(initialPage);
+        setPageGroup(Math.floor(initialPage / pageRange));
+    }, [boardId, initialPage]);
 
     const handlePostClick = (postId) => {
-        navigate(`/posts/${postId}`);
+        navigate(`/posts/${postId}?page=${pageInfo.number}`);
     };
 
     const handlePageChange = (page) => {
+        navigate(`?page=${page}`);
         fetchPosts(page);
         setPageGroup(Math.floor(page / pageRange));
     };
@@ -51,14 +56,29 @@ function PostList({ boardId }) {
         const endPage = Math.min(startPage + pageRange, pageInfo.totalPages);
 
         const pages = [];
+
+        // ◀ 이전 그룹 버튼
         if (startPage > 0) {
             pages.push(
-                <button key="prev" onClick={() => setPageGroup(pageGroup - 1)}>
-                    &lt;
-                </button>
+                <button key="prevGroup" onClick={() => setPageGroup(pageGroup - 1)}>&lt;</button>
             );
         }
 
+        // 첫 페이지 바로가기
+        if (startPage >= pageRange) {
+            pages.push(
+                <button key="first" onClick={() => handlePageChange(0)}>1</button>
+            );
+        }
+
+        // ... 왼쪽 점프 (5칸 뒤로)
+        if (startPage >= pageRange * 2) {
+            pages.push(
+                <button key="jumpBack" onClick={() => handlePageChange(startPage - pageRange)}>...</button>
+            );
+        }
+
+        // 현재 그룹의 페이지 번호들
         for (let i = startPage; i < endPage; i++) {
             pages.push(
                 <button
@@ -71,11 +91,17 @@ function PostList({ boardId }) {
             );
         }
 
+        // ... 오른쪽 점프 (5칸 앞으로)
+        if (pageInfo.totalPages - endPage >= pageRange * 2) {
+            pages.push(
+                <button key="jumpForward" onClick={() => handlePageChange(startPage + pageRange)}>...</button>
+            );
+        }
+
+        // ▶ 다음 그룹 버튼
         if (endPage < pageInfo.totalPages) {
             pages.push(
-                <button key="next" onClick={() => setPageGroup(pageGroup + 1)}>
-                    &gt;
-                </button>
+                <button key="nextGroup" onClick={() => setPageGroup(pageGroup + 1)}>&gt;</button>
             );
         }
 

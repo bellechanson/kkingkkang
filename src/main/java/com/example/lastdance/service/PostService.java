@@ -4,14 +4,12 @@ import com.example.lastdance.entity.Board;
 import com.example.lastdance.entity.Post;
 import com.example.lastdance.repository.BoardRepository;
 import com.example.lastdance.repository.PostRepository;
-//import com.example.lastdance.search.PostDocument;
-//import com.example.lastdance.search.PostSearchRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Service;
 import com.example.lastdance.dto.PostResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +20,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
-//    private final PostSearchRepository postSearchRepository;
 
+    // 게시글 생성
     public Post create(Post post, Long boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
@@ -31,101 +29,63 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    // 게시글 수정
     public Post update(Long id, Post updated) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
         post.setTitle(updated.getTitle());
         post.setContent(updated.getContent());
-
         return postRepository.save(post);
     }
 
+    // 게시글 삭제
     public void delete(Long id) {
         postRepository.deleteById(id);
     }
+
+    // 게시판 기준 전체 게시글 조회 (비페이징)
     public List<PostResponseDto> getAllByBoard(Long boardId) {
         return postRepository.findAll().stream()
                 .filter(post -> post.getBoard().getBId().equals(boardId))
-                .map(post -> PostResponseDto.builder()
-                        .id(post.getPId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .authorId(post.getAuthorId())
-                        .nickname(post.getNickname())
-                        .createdAt(post.getCreatedAt())
-                        .updatedAt(post.getUpdatedAt())
-                        .viewCount(post.getViewCount())
-                        .boardId(post.getBoard().getBId())
-                        .build()
-                ).collect(Collectors.toList());
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
+    // 게시글 상세 조회
     public PostResponseDto getById(Long id) {
         return postRepository.findById(id)
-                .map(post -> PostResponseDto.builder()
-                        .id(post.getPId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .authorId(post.getAuthorId())
-                        .nickname(post.getNickname()) // 추가
-                        .createdAt(post.getCreatedAt())
-                        .updatedAt(post.getUpdatedAt())
-                        .viewCount(post.getViewCount())
-                        .boardId(post.getBoard().getBId())
-                        .build())
+                .map(this::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
     }
 
+    // 전체 게시글 페이징
     public Page<PostResponseDto> getAllPosts(Pageable pageable) {
         Page<Post> postPage = postRepository.findAll(pageable);
-
-        // Post → PostResponseDto 변환
         List<PostResponseDto> dtoList = postPage.getContent().stream()
-                .map(post -> PostResponseDto.builder()
-                        .id(post.getPId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .authorId(post.getAuthorId())
-                        .nickname(post.getNickname())
-                        .createdAt(post.getCreatedAt())
-                        .updatedAt(post.getUpdatedAt())
-                        .viewCount(post.getViewCount())
-                        .boardId(post.getBoard().getBId())
-                        .build())
+                .map(this::toDto)
                 .collect(Collectors.toList());
-
-        // 다시 Page<PostResponseDto>로 감싸서 리턴
         return new PageImpl<>(dtoList, pageable, postPage.getTotalElements());
     }
 
+    // 페이징 처리된 게시글 조회
     public Page<PostResponseDto> getAllPaged(Pageable pageable) {
         return postRepository.findAll(pageable)
-                .map(post -> PostResponseDto.builder()
-                        .id(post.getPId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .authorId(post.getAuthorId())
-                        .nickname(post.getNickname())   // 추가
-                        .createdAt(post.getCreatedAt())
-                        .updatedAt(post.getUpdatedAt())
-                        .viewCount(post.getViewCount())
-                        .boardId(post.getBoard().getBId())
-                        .build());
+                .map(this::toDto);
     }
 
-//    public Post save(Post post) {
-//        Post saved = postRepository.save(post);
-//
-//        PostDocument document = PostDocument.builder()
-//                .id(saved.getPId().toString())
-//                .title(saved.getTitle())
-//                .content(saved.getContent())
-//                .nickname(saved.getNickname())
-//                .createdAt(saved.getCreatedAt().toString())
-//                .build();
-//
-//        postSearchRepository.save(document);
-//        return saved;
-//    }
+    // Post → PostResponseDto 변환 메서드
+    private PostResponseDto toDto(Post post) {
+        return PostResponseDto.builder()
+                .id(post.getPId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .authorId(post.getAuthorId())
+                .nickname(post.getNickname())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .viewCount(post.getViewCount())
+                .boardId(post.getBoard().getBId())
+                .build();
+    }
 }

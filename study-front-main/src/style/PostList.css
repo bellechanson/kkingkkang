@@ -18,6 +18,8 @@
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  font-size: 1.1em;
+  color: #444;
 }
 
 .post-table th:nth-child(1),
@@ -41,46 +43,15 @@
   cursor: pointer;
 }
 
-.post-row td {
-  font-size: 1.1em;
-  color: #444;
-}
-
-.post-table td {
-  font-size: 1.1em;
-}
-
 .no-posts {
   text-align: center;
   padding: 20px;
   color: #777;
   font-style: italic;
+  font-size: 1.1rem;
 }
 
-.pagination {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.pagination button {
-  margin: 0 4px;
-  padding: 6px 12px;
-  border: 1px solid #aaa;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-}
-
-.pagination button:hover {
-  background-color: #e0e0e0;
-}
-
-.pagination button.active {
-  background-color: #333;
-  color: white;
-  font-weight: bold;
-}
-
+/* 카드형 레이아웃 */
 .post-list-cards {
   display: flex;
   flex-wrap: wrap;
@@ -133,11 +104,11 @@
   font-size: 0.95rem;
   color: #666;
   line-height: 1.4;
-  max-height: 3.6em; /* 약 2줄 정도 */
+  max-height: 3.6em;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* 최대 줄 수 */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -146,8 +117,43 @@
   color: #555;
 }
 
-.no-posts {
-  font-size: 1.1rem;
-  color: #777;
-  padding: 20px;
+/* Pagination (정리 완료) */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 0.5rem 0.75rem;
+  min-width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination button.active {
+  background-color: #5db1b8;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #5db1b8;
+}
+
+.pagination button:disabled {
+  background-color: #eaeaea;
+  color: #aaa;
+  cursor: not-allowed;
 }
