@@ -75,7 +75,7 @@ const PostCreate = () => {
           <div>
             <label htmlFor="content">내용:</label>
             <Editor
-                apiKey="no-api-key"
+                apiKey="no-api-key"     //no-api-key
                 onInit={(evt, editor) => editorRef.current = editor}
                 initialValue="<p>여기에 내용을 작성하세요</p>"
                 init={{

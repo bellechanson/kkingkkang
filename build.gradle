@@ -37,6 +37,10 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    implementation 'co.elastic.clients:elasticsearch-java:8.13.2'
+
+
 }
 
 tasks.named('test') {

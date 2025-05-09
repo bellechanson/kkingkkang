@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BoardCategory from "../components/BoardCategory";
 import PostList from "../components/PostList";
-import '../style/BoardPage.css';
 import FloatingButton from "../components/FloatingButton";
-
+import SearchBar from "../components/SearchBar"; // ✅ 검색창 추가
+import '../style/BoardPage.css';
 
 function BoardPage() {
     const [selectedBoardId, setSelectedBoardId] = useState(null);
     const navigate = useNavigate();
-
-    // useLocation 훅을 사용하여 전달된 state에서 tag 값 가져오기
     const location = useLocation();
 
-    // 컴포넌트가 마운트될 때 태그 값을 가져와서 selectedBoardId에 설정
     useEffect(() => {
         if (location.state?.tag) {
-            setSelectedBoardId(location.state.tag); // location.state에서 tag 값을 selectedBoardId로 설정
+            setSelectedBoardId(location.state.tag);
         }
     }, [location.state]);
 
@@ -24,9 +21,17 @@ function BoardPage() {
         <div className="board-page-container">
             <h2 className="board-page-title">게시판</h2>
 
-            <div className="board-page-actions">
-                <button className="board-page-write-button" onClick={() => navigate("/posts/create")}>글쓰기</button>
+            {/* ✅ 검색 + 글쓰기 나란히 배치 */}
+            <div className="search-bar-row">
+                <SearchBar />
+                <button
+                    className="board-page-write-button"
+                    onClick={() => navigate("/posts/create")}
+                >
+                    글쓰기
+                </button>
             </div>
+
 
             <div className="board-page-content">
                 <div className="board-page-category">
@@ -38,7 +43,6 @@ function BoardPage() {
                 </div>
             </div>
 
-            {/* 오른쪽 하단 고정 버튼 추가 */}
             <FloatingButton />
         </div>
     );
